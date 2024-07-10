@@ -1,0 +1,1092 @@
+{
+    "Metadata": {
+        "TemplateId": "arn:aws:cloudformation:us-east-1:624827327374:generatedTemplate/ff3b407f-51fe-4152-bebe-d6cde5f1dccd"
+    },
+    "Parameters": {
+        "RDSDBSubnetGroup00rdsec2dbsubnetgroup400MvvaISubnetIdsqKRHq": {
+            "NoEcho": "true",
+            "Type": "CommaDelimitedList",
+            "Description": "The EC2 Subnet IDs for the DB subnet group."
+        }
+    },
+    "Resources": {
+        "EC2SecurityGroup00sg0dcab500d9bd0a4db00rzp2V": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SecurityGroup",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "GroupDescription": "description",
+                "GroupName": "security-group-A",
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "IpProtocol": "-1",
+                        "Description": "public-ec2-security-group",
+                        "FromPort": -1,
+                        "ToPort": -1
+                    }
+                ],
+                "SecurityGroupEgress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "IpProtocol": "-1",
+                        "FromPort": -1,
+                        "ToPort": -1
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Value": "document-pipeline",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "RDSDBSubnetGroup00rdsec2dbsubnetgroup400MvvaI": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::RDS::DBSubnetGroup",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "SubnetIds": {
+                    "Ref": "RDSDBSubnetGroup00rdsec2dbsubnetgroup400MvvaISubnetIdsqKRHq"
+                },
+                "DBSubnetGroupDescription": "Created from the RDS Management Console",
+                "DBSubnetGroupName": "rds-ec2-db-subnet-group-4"
+            }
+        },
+        "EC2Route00rtb0683ae5756d132c1000uVUwx": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb0683ae5756d132c1000fgFl4"
+                },
+                "DestinationCidrBlock": {
+                    "Fn::GetAtt": [
+                        "EC2VPC00vpc01fdf60602491293c001SiSU",
+                        "CidrBlock"
+                    ]
+                },
+                "GatewayId": "local",
+                "VpcEndpointId": "local"
+            }
+        },
+        "EC2Subnet00subnet0b65f6bafd8a3bd9f00K9uwY": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az5",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.32.128/25",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "pd-8",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2Route00rtb036633d6eb45956d600qpkIf": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb036633d6eb45956d600fK0cX"
+                },
+                "DestinationCidrBlock": {
+                    "Fn::GetAtt": [
+                        "EC2VPC00vpc01fdf60602491293c001SiSU",
+                        "CidrBlock"
+                    ]
+                },
+                "GatewayId": "local",
+                "VpcEndpointId": "local"
+            }
+        },
+        "EC2Subnet00subnet030770f34b581e93000Ndv7P": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az4",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.144.0/20",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "private-1b",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2Instance00i02531aa34b6959d8a00ijrYj": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Instance",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "Tenancy": "default",
+                "SecurityGroups": [
+                    "ec2-rds-3",
+                    "security-group-A"
+                ],
+                "PrivateIpAddress": "10.200.4.154",
+                "InstanceInitiatedShutdownBehavior": "stop",
+                "CpuOptions": {
+                    "ThreadsPerCore": 1,
+                    "CoreCount": 1
+                },
+                "BlockDeviceMappings": [
+                    {
+                        "Ebs": {
+                            "SnapshotId": "snap-04b253b6c4eb24c47",
+                            "VolumeType": "gp3",
+                            "Iops": 3000,
+                            "VolumeSize": 8,
+                            "Encrypted": false,
+                            "DeleteOnTermination": true
+                        },
+                        "DeviceName": "/dev/xvda"
+                    }
+                ],
+                "AvailabilityZone": "us-east-1a",
+                "PrivateDnsNameOptions": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet0d615a8188736288600a3bQz"
+                },
+                "SecurityGroupIds": [
+                    "sg-0c8c855acb31c6540",
+                    "sg-0dcab500d9bd0a4db"
+                ],
+                "EbsOptimized": false,
+                "DisableApiTermination": false,
+                "KeyName": "webserver-3-tier",
+                "SourceDestCheck": true,
+                "Volumes": [
+                    {
+                        "VolumeId": "vol-0b0f03c23d6fddee4",
+                        "Device": "/dev/xvda"
+                    }
+                ],
+                "PlacementGroupName": "",
+                "VpcId": "vpc-01fdf60602491293c",
+                "State": {
+                    "Code": "16",
+                    "Name": "running"
+                },
+                "NetworkInterfaces": [
+                    {
+                        "PrivateIpAddresses": [
+                            {
+                                "PrivateIpAddress": "10.200.4.154",
+                                "Primary": true
+                            }
+                        ],
+                        "SecondaryPrivateIpAddressCount": 0,
+                        "DeviceIndex": "0",
+                        "GroupSet": [
+                            {
+                                "Ref": "EC2SecurityGroup00sg0c8c855acb31c654000nhCad"
+                            },
+                            {
+                                "Ref": "EC2SecurityGroup00sg0dcab500d9bd0a4db00rzp2V"
+                            }
+                        ],
+                        "Ipv6Addresses": [],
+                        "SubnetId": {
+                            "Ref": "EC2Subnet00subnet0d615a8188736288600a3bQz"
+                        },
+                        "AssociatePublicIpAddress": true,
+                        "NetworkInterfaceId": {
+                            "Ref": "EC2NetworkInterface00eni06be97bb3eba7956100qfcbr"
+                        },
+                        "DeleteOnTermination": true
+                    }
+                ],
+                "ImageId": "ami-06c68f701d8090592",
+                "InstanceType": "t2.micro",
+                "Monitoring": false,
+                "Tags": [
+                    {
+                        "Value": "webserver-3-Tier",
+                        "Key": "Name"
+                    }
+                ],
+                "CreditSpecification": {
+                    "CPUCredits": "standard"
+                }
+            }
+        },
+        "EC2Route00rtb07981cc8e6503bda500TeRYf": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb07981cc8e6503bda500RdZsG"
+                },
+                "DestinationCidrBlock": {
+                    "Fn::GetAtt": [
+                        "EC2VPC00vpc01fdf60602491293c001SiSU",
+                        "CidrBlock"
+                    ]
+                },
+                "GatewayId": "local",
+                "VpcEndpointId": "local"
+            }
+        },
+        "EC2Subnet00subnet0a27ee7fba13a552100Gz5im": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az4",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.16.0/20",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "public-1b",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2RouteTable00rtb07981cc8e6503bda500RdZsG": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::RouteTable",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "Tags": [
+                    {
+                        "Value": "RDS-Pvt-rt",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2NetworkAcl00acl096448bcdef1eacb4002gbpV": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::NetworkAcl",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "Tags": []
+            }
+        },
+        "EC2RouteTable00rtb0683ae5756d132c1000fgFl4": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::RouteTable",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "Tags": [
+                    {
+                        "Value": "private-1b-route-table",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2SubnetRouteTableAssociation00rtbassoc09db80fb9e4c096f200vOWjf": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb0fb95043ee7cd1a8300Z6toW"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet0a27ee7fba13a552100Gz5im"
+                }
+            }
+        },
+        "EC2Volume00vol0b0f03c23d6fddee4007pCEd": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Volume",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "MultiAttachEnabled": false,
+                "SnapshotId": "snap-04b253b6c4eb24c47",
+                "VolumeType": "gp3",
+                "Encrypted": false,
+                "Size": 8,
+                "AutoEnableIO": true,
+                "AvailabilityZone": "us-east-1a",
+                "Throughput": 125,
+                "Iops": 3000,
+                "Tags": []
+            }
+        },
+        "EC2Route00rtb08f1e571ecc32eb1e00SrRjz": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb08f1e571ecc32eb1e00cqbzS"
+                },
+                "DestinationCidrBlock": {
+                    "Fn::GetAtt": [
+                        "EC2VPC00vpc01fdf60602491293c001SiSU",
+                        "CidrBlock"
+                    ]
+                },
+                "GatewayId": "local",
+                "VpcEndpointId": "local"
+            }
+        },
+        "EC2NetworkInterface00eni06be97bb3eba7956100qfcbr": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "Description": "",
+                "PrivateIpAddress": "10.200.4.154",
+                "PrivateIpAddresses": [
+                    {
+                        "PrivateIpAddress": "10.200.4.154",
+                        "Primary": true
+                    }
+                ],
+                "SecondaryPrivateIpAddressCount": 0,
+                "Ipv6PrefixCount": 0,
+                "Ipv4Prefixes": [],
+                "Ipv4PrefixCount": 0,
+                "GroupSet": [
+                    "sg-0c8c855acb31c6540",
+                    "sg-0dcab500d9bd0a4db"
+                ],
+                "Ipv6Prefixes": [],
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet0d615a8188736288600a3bQz"
+                },
+                "SourceDestCheck": true,
+                "InterfaceType": "interface",
+                "Tags": []
+            }
+        },
+        "KMSKey00d69595e403a046ad9bb6d1fdc7069ab700Fd5ez": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::KMS::Key",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "Origin": "AWS_KMS",
+                "MultiRegion": false,
+                "Description": "Default key that protects my RDS database volumes when no other key is defined",
+                "KeyPolicy": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Condition": {
+                                "StringEquals": {
+                                    "kms:ViaService": "rds.us-east-1.amazonaws.com",
+                                    "kms:CallerAccount": "624827327374"
+                                }
+                            },
+                            "Resource": "*",
+                            "Action": [
+                                "kms:Encrypt",
+                                "kms:Decrypt",
+                                "kms:ReEncrypt*",
+                                "kms:GenerateDataKey*",
+                                "kms:CreateGrant",
+                                "kms:ListGrants",
+                                "kms:DescribeKey"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": "*"
+                            },
+                            "Sid": "Allow access through RDS for all principals in the account that are authorized to use RDS"
+                        },
+                        {
+                            "Resource": "*",
+                            "Action": [
+                                "kms:Describe*",
+                                "kms:Get*",
+                                "kms:List*",
+                                "kms:RevokeGrant"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": "arn:aws:iam::624827327374:root"
+                            },
+                            "Sid": "Allow direct access to key metadata to the account"
+                        }
+                    ],
+                    "Id": "auto-rds-2"
+                },
+                "KeySpec": "SYMMETRIC_DEFAULT",
+                "Enabled": true,
+                "EnableKeyRotation": true,
+                "KeyUsage": "ENCRYPT_DECRYPT",
+                "Tags": []
+            }
+        },
+        "EC2RouteTable00rtb08f1e571ecc32eb1e00cqbzS": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::RouteTable",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                }
+            }
+        },
+        "EC2SubnetRouteTableAssociation00rtbassoc06accaafb9487220f00N8KI9": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb0fb95043ee7cd1a8300Z6toW"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet0d615a8188736288600a3bQz"
+                }
+            }
+        },
+        "EC2SubnetNetworkAclAssociation00aclassoc065a93ecf0b74670800NAth1": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "EC2NetworkAcl00acl096448bcdef1eacb4002gbpV"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet0a27ee7fba13a552100Gz5im"
+                }
+            }
+        },
+        "EC2Subnet00subnet0f6f518cfcbd1b7e300I8AtH": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az2",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.32.0/25",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "pd-7",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2RouteTable00rtb036633d6eb45956d600fK0cX": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::RouteTable",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "Tags": [
+                    {
+                        "Value": "private-1a-route-table",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2SecurityGroup00sg0c8c855acb31c654000nhCad": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SecurityGroup",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "GroupDescription": "Security group attached to instances to securely connect to database-1. Modification could lead to connection loss.",
+                "GroupName": "ec2-rds-3",
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "SecurityGroupEgress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "DestinationSecurityGroupId": {
+                            "Fn::GetAtt": [
+                                "EC2SecurityGroup00sg0e022752a33d30d1300dUvnT",
+                                "GroupId"
+                            ]
+                        },
+                        "Description": "Rule to allow connections to database-1 from any instances this security group is attached to",
+                        "FromPort": 3306,
+                        "ToPort": 3306
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Value": "document-pipeline",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2VPC00vpc01fdf60602491293c001SiSU": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::VPC",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "CidrBlock": "10.200.0.0/16",
+                "EnableDnsSupport": true,
+                "InstanceTenancy": "default",
+                "EnableDnsHostnames": true,
+                "Tags": [
+                    {
+                        "Value": "Process Documents",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "RDSDBInstance00database1009TLP4": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::RDS::DBInstance",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "StorageEncrypted": true,
+                "AssociatedRoles": [],
+                "CertificateDetails": {},
+                "ProcessorFeatures": [],
+                "StorageThroughput": 0,
+                "PreferredBackupWindow": "09:29-09:59",
+                "MonitoringInterval": 0,
+                "DBParameterGroupName": "default.mysql8.0",
+                "Endpoint": {},
+                "NetworkType": "IPV4",
+                "DedicatedLogVolume": false,
+                "CopyTagsToSnapshot": true,
+                "MultiAZ": false,
+                "Engine": "mysql",
+                "Tags": [],
+                "EngineLifecycleSupport": "open-source-rds-extended-support-disabled",
+                "LicenseModel": "general-public-license",
+                "EngineVersion": "8.0.35",
+                "StorageType": "gp2",
+                "KmsKeyId": {
+                    "Fn::GetAtt": [
+                        "KMSKey00d69595e403a046ad9bb6d1fdc7069ab700Fd5ez",
+                        "Arn"
+                    ]
+                },
+                "DBInstanceClass": "db.t3.micro",
+                "AvailabilityZone": "us-east-1a",
+                "OptionGroupName": "default:mysql-8-0",
+                "PreferredMaintenanceWindow": "wed:04:06-wed:04:36",
+                "EnablePerformanceInsights": false,
+                "AutoMinorVersionUpgrade": true,
+                "DBSubnetGroupName": {
+                    "Ref": "RDSDBSubnetGroup00rdsec2dbsubnetgroup400MvvaI"
+                },
+                "DeletionProtection": false,
+                "DBInstanceIdentifier": "database-1",
+                "AllocatedStorage": "20",
+                "CACertificateIdentifier": "rds-ca-rsa2048-g1",
+                "ManageMasterUserPassword": false,
+                "MasterUserSecret": {},
+                "VPCSecurityGroups": [
+                    {
+                        "Fn::GetAtt": [
+                            "EC2SecurityGroup00sg0e022752a33d30d1300dUvnT",
+                            "GroupId"
+                        ]
+                    },
+                    {
+                        "Fn::GetAtt": [
+                            "EC2SecurityGroup00sg026bed57f60af1212004TUfR",
+                            "GroupId"
+                        ]
+                    }
+                ],
+                "DBSecurityGroups": [],
+                "MasterUsername": "rance",
+                "DBName": "sample",
+                "EnableIAMDatabaseAuthentication": false,
+                "MaxAllocatedStorage": 1000,
+                "BackupRetentionPeriod": 0,
+                "PubliclyAccessible": false,
+                "EnableCloudwatchLogsExports": [
+                    "error"
+                ]
+            }
+        },
+        "EC2SecurityGroup00sg0e022752a33d30d1300dUvnT": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SecurityGroup",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "GroupDescription": "Security group attached to database-1 to allow EC2 instances with specific security groups attached to connect to the database. Modification could lead to connection loss.",
+                "GroupName": "rds-ec2-3",
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "Description": "Rule to allow connections from EC2 instances with sg-0c8c855acb31c6540 attached",
+                        "FromPort": 3306,
+                        "SourceSecurityGroupId": "sg-0c8c855acb31c6540",
+                        "ToPort": 3306,
+                        "SourceSecurityGroupOwnerId": "624827327374"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Value": "document-pipeline",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2RouteTable00rtb07100963fede760b4001Gj21": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::RouteTable",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "Tags": [
+                    {
+                        "Value": "RDS-Pvt-rt",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2SecurityGroup00sg026bed57f60af1212004TUfR": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SecurityGroup",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "GroupDescription": "Created by RDS management console",
+                "GroupName": "secure3Tier",
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "24.199.148.218/32",
+                        "IpProtocol": "tcp",
+                        "FromPort": 3306,
+                        "ToPort": 3306
+                    }
+                ],
+                "SecurityGroupEgress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "IpProtocol": "-1",
+                        "FromPort": -1,
+                        "ToPort": -1
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Value": "document-pipeline",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2SubnetRouteTableAssociation00rtbassoc016d328972ddfcd5000ufF9A": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb07981cc8e6503bda500RdZsG"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet063392c899e970a1700ElYz5"
+                }
+            }
+        },
+        "EC2Route00rtb0fb95043ee7cd1a8300BIbrm": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb0fb95043ee7cd1a8300Z6toW"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "EC2InternetGateway00igw02c635dbfbe1c902f007LNq7"
+                },
+                "VpcEndpointId": "igw-02c635dbfbe1c902f"
+            }
+        },
+        "EC2Subnet00subnet063392c899e970a1700ElYz5": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az4",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.33.0/25",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "pd-9",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2InternetGateway00igw02c635dbfbe1c902f007LNq7": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::InternetGateway",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Value": "igw",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2SubnetNetworkAclAssociation00aclassoc04fcf151303398d1b00L6ZD7": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "EC2NetworkAcl00acl096448bcdef1eacb4002gbpV"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet063392c899e970a1700ElYz5"
+                }
+            }
+        },
+        "EC2Subnet00subnet02cb6a23910fef6e600Cm7Nq": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az1",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.33.128/25",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "pd-10",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2Route00rtb0fb95043ee7cd1a8300wd60n": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb0fb95043ee7cd1a8300Z6toW"
+                },
+                "DestinationCidrBlock": {
+                    "Fn::GetAtt": [
+                        "EC2VPC00vpc01fdf60602491293c001SiSU",
+                        "CidrBlock"
+                    ]
+                },
+                "GatewayId": "local",
+                "VpcEndpointId": "local"
+            }
+        },
+        "EC2Subnet00subnet0f65fff782ca0ea8000TyvZ6": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az3",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.34.0/25",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "pd-11",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2VPCEndpoint00vpce0724542dd725a441a00ke6T6": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::VPCEndpoint",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "PrivateDnsEnabled": false,
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "RouteTableIds": [
+                    {
+                        "Ref": "EC2RouteTable00rtb0683ae5756d132c1000fgFl4"
+                    },
+                    {
+                        "Ref": "EC2RouteTable00rtb036633d6eb45956d600fK0cX"
+                    }
+                ],
+                "ServiceName": "com.amazonaws.us-east-1.s3",
+                "PolicyDocument": {
+                    "Version": "2008-10-17",
+                    "Statement": [
+                        {
+                            "Resource": "*",
+                            "Action": "*",
+                            "Effect": "Allow",
+                            "Principal": "*"
+                        }
+                    ]
+                },
+                "VpcEndpointType": "Gateway",
+                "SecurityGroupIds": [],
+                "SubnetIds": []
+            }
+        },
+        "EC2Subnet00subnet0d615a8188736288600a3bQz": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az2",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.0.0/20",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "public-1a",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2RouteTable00rtb0fb95043ee7cd1a8300Z6toW": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::RouteTable",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "Tags": [
+                    {
+                        "Value": "main-route-table",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2VolumeAttachment00vol0b0f03c23d6fddee400ZpzHO": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::VolumeAttachment",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "InstanceId": "i-02531aa34b6959d8a",
+                "VolumeId": "vol-0b0f03c23d6fddee4",
+                "Device": "/dev/xvda"
+            }
+        },
+        "EC2Subnet00subnet0a9621d303e26542300IXoKJ": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Subnet",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "EC2VPC00vpc01fdf60602491293c001SiSU"
+                },
+                "MapPublicIpOnLaunch": false,
+                "EnableDns64": false,
+                "AvailabilityZoneId": "use1-az2",
+                "PrivateDnsNameOptionsOnLaunch": {
+                    "EnableResourceNameDnsARecord": false,
+                    "HostnameType": "ip-name",
+                    "EnableResourceNameDnsAAAARecord": false
+                },
+                "CidrBlock": "10.200.128.0/20",
+                "Ipv6Native": false,
+                "Tags": [
+                    {
+                        "Value": "private-1a",
+                        "Key": "Name"
+                    }
+                ]
+            }
+        },
+        "EC2Route00rtb0683ae5756d132c1000fntkX": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb0683ae5756d132c1000fgFl4"
+                },
+                "DestinationPrefixListId": "pl-63a5400a",
+                "GatewayId": "vpce-0724542dd725a441a",
+                "VpcEndpointId": "vpce-0724542dd725a441a"
+            }
+        },
+        "EC2SubnetRouteTableAssociation00rtbassoc052b5594e5178459f00Y5rY9": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb07981cc8e6503bda500RdZsG"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet02cb6a23910fef6e600Cm7Nq"
+                }
+            }
+        },
+        "EC2SubnetRouteTableAssociation00rtbassoc09b5ed2a41da488bf00Mdwf6": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb0683ae5756d132c1000fgFl4"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet030770f34b581e93000Ndv7P"
+                }
+            }
+        },
+        "EC2KeyPair00webserver3tier00PEGJS": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::KeyPair",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "KeyName": "webserver-3-tier",
+                "KeyType": "rsa",
+                "PublicKeyMaterial": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFeNf0mL1n8kpzZSEq2J3MzjyXY+MHuogoSXD/RR/u550DqUyWoV5SQRSo40/0mxyJimgp6yXXB1WcPmjaTA1skYtQw5svUhjrjsjEiSeVDWVJ56ZhSnV6pcLGurcTqkjZiLqD7c+AvPk6hz0jruvjKf4XJOulMdwGOCQpA1XE/oamZFTPPjb/nthZN0BwyMQJ4H/lFemUYaTCl5QDJAhGBq22aQVU9CMbZXUWdrv4jszoEstVvPV8JqpCaWXe5gWCYBnXN3tGv6ZtHcYw/ERWlOtFdPB7AACYcG/3nDPB36MZDKXfUKZDJqMu3pV57gcknAc83dj6rHZHwFUvC1hh webserver-3-tier\n",
+                "Tags": []
+            }
+        },
+        "EC2Route00rtb07100963fede760b400PYQMr": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::Route",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "EC2RouteTable00rtb07100963fede760b4001Gj21"
+                },
+                "DestinationCidrBlock": {
+                    "Fn::GetAtt": [
+                        "EC2VPC00vpc01fdf60602491293c001SiSU",
+                        "CidrBlock"
+                    ]
+                },
+                "GatewayId": "local",
+                "VpcEndpointId": "local"
+            }
+        },
+        "EC2SubnetNetworkAclAssociation00aclassoc05a65c381035ccab400714R1": {
+            "UpdateReplacePolicy": "Retain",
+            "Type": "AWS::EC2::SubnetNetworkAclAssociation",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+                "NetworkAclId": {
+                    "Ref": "EC2NetworkAcl00acl096448bcdef1eacb4002gbpV"
+                },
+                "SubnetId": {
+                    "Ref": "EC2Subnet00subnet02cb6a23910fef6e600Cm7Nq"
+                }
+            }
+        }
+    }
+}
